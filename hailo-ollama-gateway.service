@@ -1,0 +1,27 @@
+[Unit]
+Description=Hailo Ollama Gateway - Ollama-compatible API for Hailo AI
+After=network.target hailort.service
+
+[Service]
+Type=simple
+User=root
+Group=root
+
+# Set the HEF model path (update this to your model)
+Environment="HAILO_HEF_PATH=<HEF MODEL PATH>"
+Environment="HAILO_GATEWAY_HOST=127.0.0.1"
+Environment="HAILO_GATEWAY_PORT=11434"
+
+WorkingDirectory=$HOME/ollama_gateway
+ExecStart=/usr/bin/python3.12 $HOME/ollama_gateway/hailo_ollama_gateway.py
+
+Restart=on-failure
+RestartSec=10
+StartLimitIntervalSec=120
+StartLimitBurst=5
+
+# Resource limits
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
