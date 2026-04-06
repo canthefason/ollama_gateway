@@ -124,11 +124,13 @@ class HailoState:
 
     def get_options(self, options: Optional[Dict[str, Any]]) -> Dict[str, Any]:
         """Extract generation options from Ollama format."""
+        # Default max tokens to prevent context overflow
+        hailo_options = {"max_generated_tokens": 2048}
+
         if options is None:
-            return {}
+            return hailo_options
 
         # Map Ollama options to Hailo parameters
-        hailo_options = {}
         if "temperature" in options:
             hailo_options["temperature"] = options["temperature"]
         if "top_p" in options:
