@@ -108,10 +108,12 @@ class HailoState:
 
             if HAILO_AVAILABLE:
                 try:
+                    print("try it")
                     params = VDevice.create_params()
                     params.scheduling_algorithm = HailoSchedulingAlgorithm.ROUND_ROBIN
                     params.group_id = "SHARED"
                     self.vdevice = VDevice(params)
+                    print(hef_path)
                     self.llm = LLM(self.vdevice, hef_path)
                 except Exception as e:
                     print(f"ERROR: Failed to initialize Hailo device: {e}")
