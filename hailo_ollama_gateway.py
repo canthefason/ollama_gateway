@@ -23,7 +23,7 @@ import uvicorn
 
 # Hailo imports - assumes hailo_platform is installed
 try:
-    from hailo_platform.genai import VDevice, LLM
+    from hailo_platform.genai import VDevice, LLM, HailoSchedulingAlgorithm
     HAILO_AVAILABLE = True
 except ImportError:
     HAILO_AVAILABLE = False
@@ -108,7 +108,10 @@ class HailoState:
 
             if HAILO_AVAILABLE:
                 try:
-                    self.vdevice = VDevice()
+                    params = VDevice.create_params()
+                    params.scheduling_algorithm = HailoSchedulingAlgorithm.ROUND_ROBIN
+                    params.group_id = "SHARED"
+                    self.vdevice = VDevice(params)
                     self.llm = LLM(self.vdevice, hef_path)
                 except Exception as e:
                     print(f"ERROR: Failed to initialize Hailo device: {e}")
