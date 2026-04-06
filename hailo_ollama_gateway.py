@@ -23,7 +23,7 @@ import uvicorn
 
 # Hailo imports - assumes hailo_platform is installed
 try:
-    from hailo_platform.genai import VDevice, LLM, HailoSchedulingAlgorithm
+    from hailo_platform.genai import VDevice, LLM 
     from hailo_platform import HailoSchedulingAlgorithm
     HAILO_AVAILABLE = True
 except ImportError:
